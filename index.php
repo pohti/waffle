@@ -16,7 +16,7 @@
         <div class="mainSection">
 
             <div class="logoContainer">
-                <img src="./assets/images/waffle-logo.png" alt="google-icon">
+                <img src="./assets/images/waffle-logo.png" alt="waffle-icon" title="Logo of Waffle">
             </div>
 
             <div class="searchContainer">

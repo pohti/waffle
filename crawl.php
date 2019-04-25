@@ -4,7 +4,31 @@ include("./classes/DomDocumentParser.php");
 
 $alreadyCrawled = array();
 $crawling = array();
+$alreadyFoundImages = array();
 
+// to check whether the url already exists inside the database
+function linkExists($url){
+  global $con;
+
+  $query = $con->prepare("SELECT * FROM sites WHERE url = :url");
+
+  $query->bindParam(":url", $url);
+  $query->execute();
+
+  return $query->rowCount() != 0;
+}
+function insertImage($url, $src, $alt, $title){
+  global $con;
+
+  $query = $con->prepare("INSERT INTO images(siteUrl, imageUrl, alt, title)
+                          VALUES(:siteUrl, :imageUrl, :alt, :title) ");
+  $query->bindParam(":siteUrl", $url);
+  $query->bindParam(":imageUrl", $src);
+  $query->bindParam(":alt", $alt);
+  $query->bindParam(":title", $title);
+
+  return $query->execute();
+}
 function insertLink($url, $title, $description, $keywords){
   global $con;
 
@@ -19,24 +43,13 @@ function insertLink($url, $title, $description, $keywords){
   return $query->execute();
 }
 
-function linkExists($url){
-  global $con;
-
-  $query = $con->prepare("SELECT * FROM sites WHERE url = :url");
-
-  $query->bindParam(":url", $url);
-  $query->execute();
-
-  return $query->rowCount() != 0;
-}
-
 function createLink($src, $url){
 
     $scheme = parse_url($url)["scheme"]; // http
     $host = parse_url($url)["host"]; // www.asdf.com
 
     if(substr($src, 0, 2) == "//") {
-        $src = parse_url($url)["scheme"] . ":" . $src;
+        $src = $scheme . ":" . $src;
     }
     else if(substr($src, 0, 1) == "/"){
         $src = $scheme . "://" . $host . $src;
@@ -51,12 +64,12 @@ function createLink($src, $url){
         $src = $scheme . ".//" . $host . "/" . $src;
     }
 
-
-
     return $src;
 }
 
 function getDetails($url){
+  global $alreadyFoundImages;
+
   $parser = new DomDocumentParser($url);
 
   $titleArray = $parser->getTitleTags();
@@ -85,10 +98,10 @@ function getDetails($url){
     if($meta->getAttribute("name") == "keywords"){
       $keywords = $meta->getAttribute("content");
     }
-
-    $description = str_replace("\n", "", $description);
-    $keywords = str_replace("\n", "", $keywords);
   }
+  $description = str_replace("\n", "", $description);
+  $keywords = str_replace("\n", "", $keywords);
+
 
   if(linkExists($url)){
     echo "url already exists <br>";
@@ -98,6 +111,28 @@ function getDetails($url){
   }
   else{
     echo "ERROR: Failed to insert $url <br>";
+  }
+
+  // images
+  $imageArray = $parser->getImages();
+  foreach($imageArray as $image) {
+    $src = $image->getAttribute("src");
+    $alt = $image->getAttribute("alt");
+    $title = $image->getAttribute("title");
+
+    // ignore images without title and alt
+    if(!$title && !$alt){
+      continue;
+    }
+
+    $src = createLink($src, $url);
+    if(!in_array($src, $alreadyFoundImages)) {
+      $alreadyFoundImages[] = $src;
+
+      // Insert the image
+      echo "INSERT: " . insertImage($url, $src, $alt, $title) . "<br>";
+    }
+
   }
 }
 
@@ -119,14 +154,13 @@ function followLinks($url){
             continue;
         }
 
+        $href = createLink($href, $url);
         if(!in_array($href, $alreadyCrawled)) {
             $alreadyCrawled[] = $href;
             $crawling[] = $href;
             // Insert $href
             getDetails($href);
         }
-
-        $href = createLink($href, $url);
 
     }
 
@@ -138,7 +172,13 @@ function followLinks($url){
     }
 }
 
-$startUrl = "https://www.reddit.com/";
+$facebook = "https://www.facebook.com/";
+$reddit = "https://www.reddit.com/";
+$youtube = "https://www.youtube.com/";
+$carsDB = "https://www.carsdb.com/en";
+$instagram =
+$startUrl = $carsDB;
+
 followLinks($startUrl);
 
 ?>
