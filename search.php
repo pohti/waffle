@@ -1,4 +1,6 @@
 <?php
+include("config.php");
+
     if(isset($_GET["term"])){
         $term = $_GET["term"];
     }
@@ -24,54 +26,54 @@
 </head>
 
 <body>
-   
+
     <div class="wrapper">
-    
+
         <div class="header">
-            
+
             <div class="headerContent">
-               
+
                 <div class="logoContainer">
                     <a href="./index.php">
                        <img src="./assets/images/waffle-logo.png">
                     </a>
-                </div>  
-                
+                </div>
+
                 <div class="searchContainer">
                     <form action="search.php" method="get">
-                        
+
                         <div class="searchBarContainer">
                             <input type="text" class="searchBox" name="termn">
                             <button class="searchButton">
                                 <img src="./assets/images/icons/search.png" alt="">
                             </button>
                         </div>
-                        
-                        
+
+
                     </form>
                 </div>
-                
+
             </div>
             <div class="tabsContainer">
                 <ul class="tabsList">
                     <li class="<?php echo $type == 'sites' ? 'active' : '' ?>">
                        <a href='<?php echo "search.php?term=$term&type=sites"; ?>'>
-                           Sites 
+                           Sites
                        </a>
                     </li>
                     <li class="<?php echo $type == 'images' ? 'active' : '' ?>">
                        <a href='<?php echo "search.php?term=$term&type=images"; ?>'>
-                           Images 
+                           Images
                        </a>
-                    </li>                   
+                    </li>
                 </ul>
             </div>
-            
-            
+
+
         </div>
-    
-    </div>   
-   
-  
+
+    </div>
+
+
 </body>
 </html>

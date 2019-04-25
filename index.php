@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Welcome to Waffle</title>
+    <meta name="description" content="Search the web for sites and images">
+    <meta name="keywords" content="Search engine, waffle, websites">
+    <meta name="author" content="Min">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="shortcut icon" type="image/x-icon" href="./assets/images/waffle-favicon.png" />
 </head>
@@ -22,9 +27,9 @@
                 </form>
 
             </div>
-        </div>        
-    </div>   
-   
-  
+        </div>
+    </div>
+
+
 </body>
 </html>
