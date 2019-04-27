@@ -172,12 +172,7 @@ function followLinks($url){
     }
 }
 
-$facebook = "https://www.facebook.com/";
-$reddit = "https://www.reddit.com/";
-$youtube = "https://www.youtube.com/";
-$carsDB = "https://www.carsdb.com/en";
-$instagram =
-$startUrl = $carsDB;
+$startUrl = "https://en.wikipedia.org/wiki/Wikipedia:About";
 
 followLinks($startUrl);
 

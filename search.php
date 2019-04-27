@@ -1,5 +1,6 @@
 <?php
 include("config.php");
+include("classes/SiteResultsProvider.php");
 
     if(isset($_GET["term"])){
         $term = $_GET["term"];
@@ -7,12 +8,6 @@ include("config.php");
     else{
         exit("You must enter a search term");
     }
-//    if(isset($_GET["type"])){
-//        $type = $_GET["type"];
-//    }
-//    else{
-//        $type = "sites";
-//    }
     $type = isset($_GET["type"]) ? $_GET["type"] : "sites";
 ?>
 
@@ -72,6 +67,16 @@ include("config.php");
 
         </div>
 
+        <div class="mainResultsSection">
+        <?php
+          $resultsProvider = new SiteResultsProvider($con);
+
+          $numResults = $resultsProvider->getNumResults($term);
+          echo "<p class='resultsCount'>$numResults results found</p>";
+
+          echo $resultsProvider->getResultsHtml(1, 20, $term);
+        ?>
+        </div>
     </div>
 
 
