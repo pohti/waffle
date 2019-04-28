@@ -172,7 +172,7 @@ function followLinks($url){
     }
 }
 
-$startUrl = "https://en.wikipedia.org/wiki/Wikipedia:About";
+$startUrl = "https://footyroom.com/";
 
 followLinks($startUrl);
 
