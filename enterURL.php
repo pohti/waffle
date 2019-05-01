@@ -140,6 +140,36 @@ function followLinks($url){
 }
 
 
+if(isset($_GET["url"])){
+	$startUrl = $_GET["url"];
+	//echo $startUrl;
+	followLinks($startUrl);
+}
+
 ?>
 
 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enter URL to crawl</title>
+	<link rel="stylesheet" href="./assets/css/enterUrl.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div class="formContainer">
+				<form action="enterURL.php" method="GET">
+					<div class="inputContainer">
+						<input type="text" class="urlBox" placeholder="Enter url to crawl" name="url">
+						<input type="submit" class="submitButton" value="Submit">
+					</div>
+				</form>			
+			</div>
+		</div>
+		<div class="resultContainer">
+			
+		</div>
+	</div>
+</body>
+</html>
