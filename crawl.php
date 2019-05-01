@@ -172,7 +172,7 @@ function followLinks($url){
     }
 }
 
-$startUrl = "https://footyroom.com/";
+$startUrl = "https://www.animalplanet.com/";
 
 followLinks($startUrl);
 
