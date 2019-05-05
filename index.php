@@ -1,35 +1,72 @@
+<?php
+include("config.php");
+include("classes/SiteResultsProvider.php");
+
+$term = "";
+if(isset($_GET["term"])){
+	$term = $_GET["term"];
+}
+
+$page = isset($_GET["page"]) ? $_GET["page"] : "1";
+?>
+
+
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Welcome to Waffle</title>
-    <meta name="description" content="Search the web for sites and images">
-    <meta name="keywords" content="Search engine, waffle, websites">
-    <meta name="author" content="Min">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/waffle-favicon.png" />
+<head>
+	<title>Welcome to Waffle</title>
+	<link rel="stylesheet" href="./assets/css/style.css">
+	<link rel="shortcut icon" type="image/x-icon" href="./assets/images/waffle-favicon.png" />
+	<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous">
+	</script>
 </head>
 
 <body>
-    <div class="wrapper indexPage">
-        <div class="mainSection">
 
-            <div class="logoContainer">
-                <img src="./assets/images/waffle-logo.png" alt="waffle-icon" title="Logo of Waffle">
-            </div>
+	<div class="wrapper">
 
-            <div class="searchContainer">
-                <form action="search.php" method="GET">
+		<div class="header">
 
-                    <input type="text" class="searchBox" name="term">
-                    <input type="submit" class="searchButton" value="Search">
-                </form>
+			<div class="headerContent">
 
-            </div>
-        </div>
-    </div>
+				<div class="logoContainer">
+					<a href="./index.php">
+						<img src="./assets/images/waffle-logo.png">
+					</a>
+				</div>
+
+				<div class="searchContainer">
+					<form action="index.php" method="get">
+						<div class="searchBarContainer">
+							<input type="text" class="searchBox" name="term" value="<?php echo $term; ?>">
+							<button class="searchButton">
+								<img src="./assets/images/icons/search.png" alt="">
+							</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
 
 
+		</div>
+
+		<div class="mainResultsSection">
+		<?php
+          $resultsProvider = new SiteResultsProvider($con);
+          $pageLimit = 20;
+            
+          $numResults = $resultsProvider->getNumResults($term);
+          echo "<p class='resultsCount'>$numResults results found</p>";
+
+          echo $resultsProvider->getResultsHtml($page, $pageLimit, $term);
+        ?>
+		</div>
+	</div>
+
+
+	<script type="text/javascript" src="assets/js/script.js"></script>
 </body>
+
 </html>
