@@ -41,7 +41,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : "1";
 						<div class="searchBarContainer">
 							<input type="text" class="searchBox" name="term" value="<?php echo $term; ?>">
 							<button class="searchButton">
-								<img src="./assets/images/icons/search.png" alt="">
+								Search
 							</button>
 						</div>
 					</form>

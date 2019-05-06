@@ -153,7 +153,7 @@ if(isset($_GET["url"])){
 <html>
 <head>
 	<title>Enter URL to crawl</title>
-	<link rel="stylesheet" href="./assets/css/enterUrl.css">
+	<link rel="stylesheet" href="./assets/css/crawler.css">
 </head>
 <body>
 	<div class="wrapper">

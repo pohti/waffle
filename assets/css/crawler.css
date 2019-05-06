@@ -17,8 +17,8 @@ body {
 }
 
 .formContainer {
-	margin-top: 20px;
-	margin-left: 20px;
+	margin-top: 320px;
+	margin-left: 300px;
 }
 
 .formContainer .inputContainer{
@@ -27,7 +27,7 @@ body {
 
 .formContainer .inputContainer .urlBox {
 	width: 400px;
-	height: 24px;
+	height: 26px;
 	margin-right: 7px;
 }
 
