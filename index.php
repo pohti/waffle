@@ -58,9 +58,12 @@ $page = isset($_GET["page"]) ? $_GET["page"] : "1";
           $pageLimit = 20;
             
           $numResults = $resultsProvider->getNumResults($term);
-          echo "<p class='resultsCount'>$numResults results found</p>";
+		  if($term != ""){
+			 echo "<p class='resultsCount'>$numResults results found</p>";
 
-          echo $resultsProvider->getResultsHtml($page, $pageLimit, $term);
+             echo $resultsProvider->getResultsHtml($page, $pageLimit, $term); 
+		  }
+          
         ?>
 		</div>
 	</div>

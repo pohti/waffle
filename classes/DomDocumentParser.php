@@ -8,7 +8,6 @@ class DomDocumentParser {
             'http'=>array(
                 'method'=>"GET",
                 'header'=>"User-Agent: waffleBot/0.1\n"
-
                 )
             );
         $context = stream_context_create($options);

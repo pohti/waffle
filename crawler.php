@@ -140,10 +140,15 @@ function followLinks($url){
 }
 
 
+// get URL
 if(isset($_GET["url"])){
 	$startUrl = $_GET["url"];
-	//echo $startUrl;
-	followLinks($startUrl);
+	// validate URL
+	if(filter_var($startUrl, FILTER_VALIDATE_URL)) followLinks($startUrl);
+	else{
+		echo "invalid url";
+		exit;
+	}
 }
 
 ?>
