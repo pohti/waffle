@@ -159,7 +159,7 @@ if(isset($_GET["url"])){
 	<div class="wrapper">
 		<div class="header">
 			<div class="formContainer">
-				<form action="enterURL.php" method="GET">
+				<form action="crawler.php" method="GET">
 					<div class="inputContainer">
 						<input type="text" class="urlBox" placeholder="Enter url to crawl" name="url">
 						<input type="submit" class="submitButton" value="Submit">
