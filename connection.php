@@ -1,7 +1,7 @@
 <?php
 ob_start();
 
-$dbHostName = "localhost";
+$dbHostName = "127.0.0.1"; // 127.0.0.1 = localhost
 $dbuserName = "root";
 $dbPassword = "";
 $dbName = "waffle";
