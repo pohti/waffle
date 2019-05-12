@@ -1,13 +1,12 @@
 <?php
 include("connection.php");
-include("classes/SiteResultsProvider.php");
+include("classes/infoExtractor.php");
 
 $term = "";
 if(isset($_GET["term"])){
 	$term = $_GET["term"];
 }
 
-$page = isset($_GET["page"]) ? $_GET["page"] : "1";
 ?>
 
 
@@ -16,8 +15,12 @@ $page = isset($_GET["page"]) ? $_GET["page"] : "1";
 
 <head>
 	<title>Welcome to Waffle</title>
-	<link rel="stylesheet" href="./assets/css/style.css">
+	
+<!--	css-->
+	<link rel="stylesheet" href="./assets/css/index.css">
 	<link rel="shortcut icon" type="image/x-icon" href="./assets/images/waffle-favicon.png" />
+	
+<!--	jquery-->
 	<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous">
 	</script>
 </head>
@@ -25,45 +28,35 @@ $page = isset($_GET["page"]) ? $_GET["page"] : "1";
 <body>
 
 	<div class="wrapper">
-
-		<div class="header">
-
-			<div class="headerContent">
-
-				<div class="logoContainer">
-					<a href="./index.php">
-						<img src="./assets/images/waffle-logo.png">
-					</a>
-				</div>
-
-				<div class="searchContainer">
-					<form action="index.php" method="get">
-						<div class="searchBarContainer">
-							<input type="text" class="searchBox" name="term" value="<?php echo $term; ?>">
-							<button class="searchButton">
-								Search
-							</button>
-						</div>
-					</form>
-				</div>
-
-			</div>
-
 		
-
+		<!--header section-->
+		<div class="headerDiv">
+			<!--search bar-->
+			<div class="searchDiv">
+				<form action="index.php" method="GET">
+					<div class="searchBarDiv">
+						<input type="text" class="searchBox" name="term" value="<?php echo $term; ?>">
+						<!--submit button-->
+						<button class="searchButton">
+							Search
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
-
-		<div class="mainResultsSection">
+<!--------------------------------------------------------------------->
+		<!--main result section-->
+		<div class="resultsSection">
 		<?php
-          $resultsProvider = new SiteResultsProvider($con);
-          $pageLimit = 20;
-            
-          $numResults = $resultsProvider->getNumResults($term);
-		  if($term != ""){
-			 echo "<p class='resultsCount'>$numResults results found</p>";
+			$resultExtractor = new infoExtractor($con);
+			
 
-             echo $resultsProvider->getResultsHtml($page, $pageLimit, $term); 
-		  }
+			$resultsCount = $resultExtractor->getResultsCount($term);
+			if($term != ""){
+				echo "<p class='resultsCount'>$resultsCount results found</p>";
+
+				echo $resultExtractor->getResultAsHTML($term); 
+			}
           
         ?>
 		</div>

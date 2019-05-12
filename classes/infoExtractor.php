@@ -1,12 +1,12 @@
 <?php
-class SiteResultsProvider {
+class infoExtractor {
   	private $con;
 
 	public function __construct($con){
 		$this->con = $con;
 	}
 
-	public function getNumResults($term){
+	public function getResultsCount($term){
 
 		$query = $this->con->prepare("SELECT COUNT(*) as total
 									  FROM sites WHERE title LIKE :term
@@ -23,26 +23,24 @@ class SiteResultsProvider {
 		return $row["total"];
 	}
 
-	public function getResultsHtml($page, $pageSize, $term) {
+	public function getResultAsHTML($term) {
 
-		$fromLimit = ($page - 1) * $pageSize;
+
 
 		$query = $this->con->prepare("SELECT * 
 										 FROM sites WHERE title LIKE :term 
 										 OR url LIKE :term 
 										 OR keywords LIKE :term 
 										 OR description LIKE :term
-										 ORDER BY clicks DESC
-										 LIMIT :fromLimit, :pageSize");
+										 ORDER BY clicks DESC"
+									);
 
 		$searchTerm = "%". $term . "%";
 		$query->bindParam(":term", $searchTerm);
-		$query->bindParam(":fromLimit", $fromLimit, PDO::PARAM_INT);
-		$query->bindParam(":pageSize", $pageSize, PDO::PARAM_INT);
 		$query->execute();
 
 
-		$resultsHtml = "<div class='siteResults'>";
+		$htmlContent = "<div class='sitesDiv'>";
 
 
 		while($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -50,11 +48,8 @@ class SiteResultsProvider {
 			$url = $row["url"];
 			$title = $row["title"];
 			$description = $row["description"];
-
-			$title = $this->trimField($title, 55);
-			$description = $this->trimField($description, 230);
 			
-			$resultsHtml .= "<div class='resultContainer'>
+			$htmlContent .= "<div class='resultDiv'>
 
 								<h3 class='title'>
 									<a class='result' href='$url' data-linkId='$id'>
@@ -70,15 +65,10 @@ class SiteResultsProvider {
 		}
 
 
-		$resultsHtml .= "</div>";
+		$htmlContent .= "</div>";
 
-		return $resultsHtml;
+		return $htmlContent;
 	}
     
-	private function trimField($string, $characterLimit){
-
-		$dots = strlen($string) > $characterLimit ? "..." : "";
-		return substr($string, 0, $characterLimit) . $dots;
-	}
 }
 ?>

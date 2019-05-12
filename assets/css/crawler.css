@@ -1,6 +1,5 @@
 * {
-    font-family: calibri, sans-serif;
-    color: #545454;
+    font-family: calibri
 }
 
 html,
@@ -29,12 +28,6 @@ body {
 	width: 400px;
 	height: 26px;
 	margin-right: 7px;
+	padding: 3px;
 }
 
-.formContainer .inputContainer .submitButton {
-	
-}
-
-.resultContainer {
-	
-}

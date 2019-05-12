@@ -13,7 +13,7 @@ $(document).ready(function(){
 });
 
 function increaseLinkClicks(linkId, url) {
-	$.post("ajax/updateLinkCount.php", {linkId : linkId})
+	$.post("ajax/updateClicks.php", {linkId : linkId})
 	.done(function(result){
 		if(result != "") {
 			alert(result);

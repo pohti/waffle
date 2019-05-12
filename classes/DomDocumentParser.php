@@ -1,8 +1,11 @@
 <?php
+//This class is used for extracting information from a given URL
+
 class DomDocumentParser {
 
     private $doc;
 
+	// constructor
     function __construct ($url){
         $options = array(
             'http'=>array(
@@ -16,12 +19,17 @@ class DomDocumentParser {
         @$this->doc->loadHTML(file_get_contents($url, false, $context));
     }
 
-    public function getLinks() {
+	// to find and return value inside <a> tags
+    public function getURLs() {
         return $this->doc->getElementsByTagName("a");
     }
+	
+	// to find and return value inside <title> tags
     public function getTitleTags() {
         return $this->doc->getElementsByTagName("title");
     }
+	
+	// to find and return value inside <meta> tags
     public function getMetaTags() {
         return $this->doc->getElementsByTagName("meta");
     }
