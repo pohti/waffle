@@ -4,6 +4,7 @@
 html, body {
     margin: 0;
     height: 100%;
+	background: #212223;
 }
 /*------------------------------------------------------------*/
 /*main container for the entire page*/
@@ -41,6 +42,9 @@ html, body {
 					padding: 10px;
 					font-size: 16px;
 					width: 650px;
+					background-color: #5c6066;
+					border: none;
+					border-radius: 3px;
 				}
 				/*submit button*/
 				.searchDiv .searchButton {
@@ -51,8 +55,21 @@ html, body {
 					padding-right: 10px;
 					padding-left: 10px;
 					cursor: pointer;
+					background-color: #5c6066 ;
+					border: none;
+					border-radius: 3px;
 				}
-
+				.clearSearch {
+					border: none;
+					border-radius: 3px;
+					background-color: #5c6066 ;
+					height: 25px;
+					width: 50px;
+				}
+				.clearSearch a{
+					text-decoration: none;
+					color: black;
+				}
 
 /*------------------------------------------------------------*/
 /*results section*/
@@ -62,7 +79,7 @@ html, body {
 /*	indicator for number of results found*/
 	.resultsSection .resultsCount{
 		font-size: 13px;
-		color: #6c737f;
+		color: #b5b7bf;
 		margin-left: 130px;
 	}
 
@@ -83,7 +100,7 @@ html, body {
 		}
 
 			.resultDiv .title a {
-				color: #1155c1;
+				color: #2247d8;
 				text-decoration: none;
 				font-weight: normal;
 				font-size: 20px;
@@ -96,8 +113,8 @@ html, body {
 		font-size: 14px;
 	}
 	.resultDiv .description{
-		font-size: 12px;
-		color: #6c737f;
+		font-size: 13px;
+		color: #b5b7bf;
 	}
 
 

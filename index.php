@@ -42,6 +42,9 @@ if(isset($_GET["term"])){
 						</button>
 					</div>
 				</form>
+				<button class="clearSearch">
+					<a href="index.php">Clear</a>
+				</button>
 			</div>
 		</div>
 <!--------------------------------------------------------------------->
