@@ -1,16 +1,36 @@
 <?php
-ob_start();
 
-$dbHostName = "localhost";
-$dbuserName = "root";
-$dbPassword = "";
-$dbName = "waffle";
+function getOperator($term){
+	$and = "and";
+	$or = "or";
+	$exclude = "\\";
+	$operator = "";
+	
+	if(strpos($term, $and)){
+		$operator = $and;
+	}
+	else if(strpos($term, $or)){
+		$operator = $or;
+	}
+	else if(strpos($term, $exclude)){
+		$operator = $exclude;
+	}
+	
+	return $operator;
+}
 
-try {
-  $con = new PDO("mysql:dbname=$dbName;host=$dbHostName", "$dbuserName", "$dbPassword");
-  $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-}
-catch (PDOException $e){
-  echo "Connection failed: " . $e->getMessage();
-}
+$br = "<br>";
+$bigbr = "<br><br><br>";
+
+$andString = "google and yahoo";
+$orString = "google or yahoo";
+$excludeString = "cnn \ video";
+
+$bigbr;
+echo getOperator($andString);
+echo getOperator($orString);
+echo getOperator($excludeString);
+
+
+
 ?>

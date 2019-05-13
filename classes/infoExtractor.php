@@ -1,4 +1,9 @@
 <?php
+// and
+// or |
+// exclude \
+
+
 class infoExtractor {
   	private $con;
 
@@ -6,6 +11,26 @@ class infoExtractor {
 		$this->con = $con;
 	}
 
+	// to extract operator from the search term
+	private function getOperator($term){
+		$and = "and";
+		$or = "or";
+		$exclude = "\\";
+		$operator = "";
+
+		if(strpos($term, $and)){
+			$operator = $and;
+		}
+		else if(strpos($term, $or)){
+			$operator = $or;
+		}
+		else if(strpos($term, $exclude)){
+			$operator = $exclude;
+		}
+
+		return $operator;
+	}
+	
 	public function getResultsCount($term){
 
 		$query = $this->con->prepare("SELECT COUNT(*) as total
