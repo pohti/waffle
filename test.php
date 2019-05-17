@@ -6,7 +6,7 @@
 4. 
 */
 
-
+$terms;
 // to get the operator from the given string
 function getOperator($term){
 	$and = "and";
@@ -24,7 +24,13 @@ function getOperator($term){
 		$operator = $exclude;
 	}
 	
-	return $operator;
+    return $operator;
+}
+
+// using operator as a delimeter, tokenize the given string
+function getTerms($term){
+    global $terms;
+    $terms = explode(getOperator($term), $term);
 }
 
 
@@ -35,11 +41,14 @@ $andString = "google and yahoo";
 $orString = "google or yahoo";
 $excludeString = "cnn \ video";
 
+getTerms($andString);
+
 echo $bigbr;
-echo substr_replace(" ", "", $andString);
-echo getOperator($andString) . $br;
-echo getOperator($orString) . $br;
-echo getOperator($excludeString) . $br;
+echo "Original String: $andString $bigbr";
+echo "Operator: " . getOperator($andString) . $br;
+echo "First Term:" . $terms[0] . $br;
+echo "Second Term: " . $terms[1] . $br;
+// get multiple terms out of the string
 
 
 

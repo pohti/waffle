@@ -6,7 +6,8 @@
 
 class infoExtractor {
   	private $con;
-
+    private $terms;
+    
 	public function __construct($con){
 		$this->con = $con;
 	}
@@ -17,7 +18,8 @@ class infoExtractor {
 		$or = "or";
 		$exclude = "\\";
 		$operator = "";
-
+        
+        
 		if(strpos($term, $and)){
 			$operator = $and;
 		}
@@ -30,9 +32,16 @@ class infoExtractor {
 
 		return $operator;
 	}
-	
-	public function getResultsCount($term){
-
+    
+	// using operator as a delimeter, tokenize the given string
+    private function getTerms($term){
+        $this->terms = explode($this->getOperator($term), $term);
+        $this->terms[0] = trim($this->terms[0]);
+        $this->terms[1] = trim($this->terms[1]);
+    }
+    
+    // return the number of results found for the given term
+    private function getCount($term){
 		$query = $this->con->prepare("SELECT COUNT(*) as total
 									  FROM sites WHERE title LIKE :term
 									  OR url LIKE :term
@@ -45,13 +54,27 @@ class infoExtractor {
 		$query->execute();
 
 		$row = $query->fetch(PDO::FETCH_ASSOC);
+        
 		return $row["total"];
+    }
+    
+    // get the total number of results found in the given term
+	public function getResultsCount($term){
+        $count = 0;
+        
+        if($this->getOperator($term) != ""){
+            $this->getTerms($term);
+            $count = $this->getCount($this->terms[0]);
+            $count = ( $count + $this->getCount($this->terms[1]) );
+        }
+        else{
+            $count = $this->getCount($term);
+        }
+        
+        return $count;
 	}
 
-	public function getResultAsHTML($term) {
-
-
-
+    private function getHtml($term){
 		$query = $this->con->prepare("SELECT * 
 										 FROM sites WHERE title LIKE :term 
 										 OR url LIKE :term 
@@ -64,9 +87,7 @@ class infoExtractor {
 		$query->bindParam(":term", $searchTerm);
 		$query->execute();
 
-
 		$htmlContent = "<div class='sitesDiv'>";
-
 
 		while($row = $query->fetch(PDO::FETCH_ASSOC)) {
 			$id = $row["id"];
@@ -85,14 +106,27 @@ class infoExtractor {
 								<span class='description'>$description</span>
 
 							</div>";
-
-
 		}
 
 
 		$htmlContent .= "</div>";
 
-		return $htmlContent;
+		return $htmlContent; 
+    }
+    
+	public function getResultAsHTML($term) {
+        if($this->getOperator($term) != ""){
+            $this->getTerms($term);
+            $htmlContent = $this->getHtml($this->terms[0]);
+            
+            
+            $htmlContent .= $this->getHtml($this->terms[1]);
+            return $htmlContent;
+            
+        }
+        else{
+            return $this->getHtml($term);
+        }
 	}
     
 }
