@@ -53,11 +53,14 @@ if(isset($_GET["term"])){
 		<?php
 			$resultExtractor = new infoExtractor($con);
 			
+            
 
-			$resultsCount = $resultExtractor->getResultsCount($term);
 			if($term != ""){
+                
+			    $resultsCount = $resultExtractor->getResultsCount($term);
+//                display the number of results found
 				echo "<p class='resultsCount'>$resultsCount results found</p>";
-
+//                display the results as html
 				echo $resultExtractor->getResultAsHTML($term); 
 			}
           
